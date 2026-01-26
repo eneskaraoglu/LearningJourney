@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Todo App - Practice Project</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: #5c6bc0;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        header h1 { margin: 0; font-weight: 300; font-size: 28px; }
+        header p { margin: 10px 0 0; opacity: 0.8; }
+        
+        .add-todo {
+            display: flex;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+        }
+        .add-todo input {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .add-todo input:focus { border-color: #5c6bc0; }
+        .add-todo button {
+            padding: 15px 25px;
+            background: #5c6bc0;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .add-todo button:hover { background: #3f51b5; }
+        
+        .filters {
+            display: flex;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            gap: 10px;
+        }
+        .filters button {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .filters button:hover { border-color: #5c6bc0; }
+        .filters button.active { 
+            background: #5c6bc0; 
+            color: white; 
+            border-color: #5c6bc0;
+        }
+        
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            min-height: 200px;
+        }
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+        .todo-item:hover { background: #f8f9fa; }
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .todo-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .todo-text {
+            flex: 1;
+            font-size: 16px;
+        }
+        .todo-item .delete-btn {
+            background: none;
+            border: none;
+            color: #e57373;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            padding: 5px 10px;
+        }
+        .todo-item:hover .delete-btn { opacity: 1; }
+        .todo-item .delete-btn:hover { color: #c62828; }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+        }
+        .clear-completed {
+            background: none;
+            border: none;
+            color: #e57373;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .clear-completed:hover { text-decoration: underline; }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state span { font-size: 48px; display: block; margin-bottom: 10px; }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 jQuery Todo App</h1>
+            <p>Practice project using jQuery concepts</p>
+        </header>
+        
+        <div class="add-todo">
+            <input type="text" id="todo-input" placeholder="What needs to be done?">
+            <button id="add-btn">Add</button>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+        
+        <ul id="todo-list" class="todo-list">
+            <!-- Todos will be added here -->
+        </ul>
+        
+        <div class="stats">
+            <span id="items-left">0 items left</span>
+            <button class="clear-completed" id="clear-completed">Clear completed</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            // =========================================
+            // TODO APP - DEMONSTRATES JQUERY CONCEPTS:
+            // - Selectors
+            // - DOM Manipulation
+            // - Event Handling
+            // - Event Delegation
+            // - Effects/Animations
+            // - Traversal
+            // - Chaining
+            // =========================================
+            
+            let todos = [];
+            let currentFilter = 'all';
+            let nextId = 1;
+            
+            // Add todo on button click
+            $('#add-btn').click(addTodo);
+            
+            // Add todo on Enter key
+            $('#todo-input').keypress(function(e) {
+                if (e.which === 13) { // Enter key
+                    addTodo();
+                }
+            });
+            
+            // Event delegation for dynamically added elements
+            $('#todo-list').on('click', '.delete-btn', function() {
+                const $item = $(this).closest('.todo-item');
+                const id = $item.data('id');
+                
+                // Fade out animation, then remove
+                $item.fadeOut(300, function() {
+                    $(this).remove();
+                    todos = todos.filter(todo => todo.id !== id);
+                    updateStats();
+                    checkEmpty();
+                });
+            });
+            
+            // Toggle completed status
+            $('#todo-list').on('change', 'input[type="checkbox"]', function() {
+                const $item = $(this).closest('.todo-item');
+                const id = $item.data('id');
+                
+                // Toggle completed class
+                $item.toggleClass('completed');
+                
+                // Update data
+                const todo = todos.find(t => t.id === id);
+                if (todo) {
+                    todo.completed = $(this).prop('checked');
+                }
+                
+                updateStats();
+                applyFilter();
+            });
+            
+            // Filter buttons
+            $('.filter-btn').click(function() {
+                // Update active state using chaining
+                $('.filter-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                currentFilter = $(this).data('filter');
+                applyFilter();
+            });
+            
+            // Clear completed
+            $('#clear-completed').click(function() {
+                $('.todo-item.completed').fadeOut(300, function() {
+                    $(this).remove();
+                });
+                todos = todos.filter(todo => !todo.completed);
+                updateStats();
+                setTimeout(checkEmpty, 300);
+            });
+            
+            // =========================================
+            // FUNCTIONS
+            // =========================================
+            
+            function addTodo() {
+                const text = $('#todo-input').val().trim();
+                if (!text) return;
+                
+                const todo = {
+                    id: nextId++,
+                    text: text,
+                    completed: false
+                };
+                
+                todos.push(todo);
+                renderTodo(todo);
+                
+                // Clear input and focus
+                $('#todo-input').val('').focus();
+                
+                updateStats();
+                checkEmpty();
+            }
+            
+            function renderTodo(todo) {
+                const $item = $(`
+                    <li class="todo-item fade-in" data-id="${todo.id}">
+                        <input type="checkbox" ${todo.completed ? 'checked' : ''}>
+                        <span class="todo-text">${escapeHtml(todo.text)}</span>
+                        <button class="delete-btn">✕</button>
+                    </li>
+                `);
+                
+                if (todo.completed) {
+                    $item.addClass('completed');
+                }
+                
+                $('#todo-list').append($item);
+                applyFilter();
+            }
+            
+            function applyFilter() {
+                $('.todo-item').each(function() {
+                    const isCompleted = $(this).hasClass('completed');
+                    
+                    if (currentFilter === 'all') {
+                        $(this).show();
+                    } else if (currentFilter === 'active') {
+                        $(this).toggle(!isCompleted);
+                    } else if (currentFilter === 'completed') {
+                        $(this).toggle(isCompleted);
+                    }
+                });
+            }
+            
+            function updateStats() {
+                const active = todos.filter(t => !t.completed).length;
+                const completed = todos.filter(t => t.completed).length;
+                
+                $('#items-left').text(active + ' item' + (active !== 1 ? 's' : '') + ' left');
+                
+                // Show/hide clear button
+                if (completed > 0) {
+                    $('#clear-completed').show();
+                } else {
+                    $('#clear-completed').hide();
+                }
+            }
+            
+            function checkEmpty() {
+                if (todos.length === 0) {
+                    $('#todo-list').html(`
+                        <div class="empty-state">
+                            <span>📋</span>
+                            <p>No todos yet. Add one above!</p>
+                        </div>
+                    `);
+                } else if ($('#todo-list .empty-state').length) {
+                    $('#todo-list .empty-state').remove();
+                }
+            }
+            
+            function escapeHtml(text) {
+                return $('<div>').text(text).html();
+            }
+            
+            // Initialize
+            checkEmpty();
+            updateStats();
+            
+            // Add some demo todos
+            const demoTodos = [
+                'Learn jQuery selectors',
+                'Practice DOM manipulation',
+                'Understand event handling'
+            ];
+            
+            demoTodos.forEach(text => {
+                $('#todo-input').val(text);
+                addTodo();
+            });
+        });
+    </script>
+</body>
+</html>

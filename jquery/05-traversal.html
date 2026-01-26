@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery DOM Traversal</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .container { padding: 15px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; }
+        .parent { background: #e3f2fd; }
+        .child { background: #fff; margin: 10px; padding: 10px; border: 1px solid #90caf9; }
+        .grandchild { background: #e8f5e9; margin: 5px; padding: 8px; border: 1px solid #a5d6a7; }
+        .highlight { background: #ffeb3b !important; border-color: #f57f17 !important; }
+        button { padding: 8px 15px; margin: 5px; cursor: pointer; background: #673ab7; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #512da8; }
+        h1 { color: #333; }
+        h2 { color: #555; }
+        .demo-section { margin: 30px 0; padding: 20px; background: #fafafa; border-radius: 8px; }
+        .sibling { display: inline-block; padding: 15px 25px; margin: 5px; background: #b2dfdb; border-radius: 4px; }
+        ul.tree { list-style: none; padding-left: 20px; }
+        ul.tree li { padding: 5px 10px; margin: 5px 0; background: #f0f0f0; border-radius: 4px; }
+        .controls { margin: 15px 0; padding: 15px; background: #fff3e0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>05 - DOM Traversal</h1>
+    
+    <!-- Parent/Children/Siblings Demo -->
+    <div class="demo-section">
+        <h2>1. Parent, Children, Siblings</h2>
+        
+        <div id="grandparent" class="container parent">
+            <strong>Grandparent</strong>
+            <div id="parent1" class="container child">
+                <strong>Parent 1</strong>
+                <div class="grandchild">Child A</div>
+                <div class="grandchild" id="target-child">Child B (Target)</div>
+                <div class="grandchild">Child C</div>
+            </div>
+            <div id="parent2" class="container child">
+                <strong>Parent 2</strong>
+                <div class="grandchild">Child D</div>
+                <div class="grandchild">Child E</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <strong>From #target-child:</strong><br>
+            <button id="btn-parent">parent()</button>
+            <button id="btn-parents">parents()</button>
+            <button id="btn-siblings">siblings()</button>
+            <button id="btn-next">next()</button>
+            <button id="btn-prev">prev()</button>
+            <button id="btn-reset1">Reset</button>
+        </div>
+    </div>
+    
+    <!-- Children and Find -->
+    <div class="demo-section">
+        <h2>2. Children & Find</h2>
+        
+        <div id="outer-container" class="container parent">
+            <strong>Outer Container</strong>
+            <div class="child">
+                Direct Child 1
+                <div class="grandchild nested">Nested Item</div>
+            </div>
+            <div class="child">
+                Direct Child 2
+                <div class="grandchild nested">Nested Item</div>
+                <div class="grandchild nested">Nested Item</div>
+            </div>
+            <div class="child">Direct Child 3</div>
+        </div>
+        
+        <div class="controls">
+            <strong>From #outer-container:</strong><br>
+            <button id="btn-children">children() - Direct only</button>
+            <button id="btn-find">find('.nested') - All descendants</button>
+            <button id="btn-reset2">Reset</button>
+        </div>
+    </div>
+    
+    <!-- First, Last, Eq, Filter -->
+    <div class="demo-section">
+        <h2>3. Filtering: first, last, eq, filter</h2>
+        
+        <div id="list-container">
+            <div class="sibling item">Item 1</div>
+            <div class="sibling item special">Item 2 (special)</div>
+            <div class="sibling item">Item 3</div>
+            <div class="sibling item special">Item 4 (special)</div>
+            <div class="sibling item">Item 5</div>
+        </div>
+        
+        <div class="controls">
+            <button id="btn-first">first()</button>
+            <button id="btn-last">last()</button>
+            <button id="btn-eq2">eq(2) - Third item</button>
+            <button id="btn-filter">filter('.special')</button>
+            <button id="btn-not">not('.special')</button>
+            <button id="btn-reset3">Reset</button>
+        </div>
+    </div>
+    
+    <!-- Closest and ParentsUntil -->
+    <div class="demo-section">
+        <h2>4. closest() and parentsUntil()</h2>
+        
+        <div id="level1" class="container parent" data-level="1">
+            Level 1
+            <div id="level2" class="container child" data-level="2">
+                Level 2
+                <div id="level3" class="container grandchild" data-level="3">
+                    Level 3
+                    <button id="deep-target">I'm deep inside! Click me</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="btn-closest">closest('.parent')</button>
+            <button id="btn-parentsuntil">parentsUntil('#level1')</button>
+            <button id="btn-reset4">Reset</button>
+        </div>
+        <div id="output4" style="margin-top: 10px; padding: 10px; background: #fff;"></div>
+    </div>
+    
+    <!-- Each Loop -->
+    <div class="demo-section">
+        <h2>5. each() - Loop Through Elements</h2>
+        
+        <ul class="tree" id="tree-list">
+            <li>Apple</li>
+            <li>Banana</li>
+            <li>Cherry</li>
+            <li>Date</li>
+            <li>Elderberry</li>
+        </ul>
+        
+        <div class="controls">
+            <button id="btn-each">Add index to each item</button>
+            <button id="btn-each-reset">Reset list</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            // === Section 1: Parent/Children/Siblings ===
+            $('#btn-parent').click(function() {
+                resetSection1();
+                $('#target-child').parent().addClass('highlight');
+            });
+            
+            $('#btn-parents').click(function() {
+                resetSection1();
+                $('#target-child').parents().addClass('highlight');
+            });
+            
+            $('#btn-siblings').click(function() {
+                resetSection1();
+                $('#target-child').siblings().addClass('highlight');
+            });
+            
+            $('#btn-next').click(function() {
+                resetSection1();
+                $('#target-child').next().addClass('highlight');
+            });
+            
+            $('#btn-prev').click(function() {
+                resetSection1();
+                $('#target-child').prev().addClass('highlight');
+            });
+            
+            $('#btn-reset1').click(resetSection1);
+            
+            function resetSection1() {
+                $('#grandparent, #grandparent *').removeClass('highlight');
+            }
+            
+            // === Section 2: Children & Find ===
+            $('#btn-children').click(function() {
+                resetSection2();
+                $('#outer-container').children('.child').addClass('highlight');
+            });
+            
+            $('#btn-find').click(function() {
+                resetSection2();
+                $('#outer-container').find('.nested').addClass('highlight');
+            });
+            
+            $('#btn-reset2').click(resetSection2);
+            
+            function resetSection2() {
+                $('#outer-container, #outer-container *').removeClass('highlight');
+            }
+            
+            // === Section 3: Filtering ===
+            $('#btn-first').click(function() {
+                resetSection3();
+                $('.item').first().addClass('highlight');
+            });
+            
+            $('#btn-last').click(function() {
+                resetSection3();
+                $('.item').last().addClass('highlight');
+            });
+            
+            $('#btn-eq2').click(function() {
+                resetSection3();
+                $('.item').eq(2).addClass('highlight'); // 0-indexed, so this is 3rd item
+            });
+            
+            $('#btn-filter').click(function() {
+                resetSection3();
+                $('.item').filter('.special').addClass('highlight');
+            });
+            
+            $('#btn-not').click(function() {
+                resetSection3();
+                $('.item').not('.special').addClass('highlight');
+            });
+            
+            $('#btn-reset3').click(resetSection3);
+            
+            function resetSection3() {
+                $('.item').removeClass('highlight');
+            }
+            
+            // === Section 4: Closest and ParentsUntil ===
+            $('#btn-closest').click(function() {
+                resetSection4();
+                const found = $('#deep-target').closest('.parent');
+                found.addClass('highlight');
+                $('#output4').text('closest(".parent") found: #' + found.attr('id'));
+            });
+            
+            $('#btn-parentsuntil').click(function() {
+                resetSection4();
+                $('#deep-target').parentsUntil('#level1').addClass('highlight');
+                $('#output4').text('parentsUntil("#level1") highlights all parents up to (but not including) #level1');
+            });
+            
+            $('#btn-reset4').click(function() {
+                resetSection4();
+                $('#output4').text('');
+            });
+            
+            function resetSection4() {
+                $('#level1, #level1 *').removeClass('highlight');
+            }
+            
+            // === Section 5: Each Loop ===
+            const originalList = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+            
+            $('#btn-each').click(function() {
+                $('#tree-list li').each(function(index, element) {
+                    // 'this' is the DOM element
+                    // $(this) is the jQuery wrapped version
+                    $(this).text(index + ': ' + originalList[index]);
+                    $(this).css('background', 'hsl(' + (index * 60) + ', 70%, 80%)');
+                });
+            });
+            
+            $('#btn-each-reset').click(function() {
+                $('#tree-list li').each(function(index) {
+                    $(this).text(originalList[index]);
+                    $(this).css('background', '#f0f0f0');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

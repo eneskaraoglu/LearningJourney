@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery DOM Manipulation</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .box { padding: 20px; margin: 10px 0; background: #e3f2fd; border-radius: 8px; }
+        .styled { background: #c8e6c9; border: 2px dashed #4CAF50; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #2196F3; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #1976D2; }
+        #content-box { min-height: 50px; }
+        h1 { color: #333; }
+        .controls { margin: 20px 0; padding: 15px; background: #fff3e0; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>02 - DOM Manipulation</h1>
+    
+    <!-- Text and HTML Content -->
+    <h2>1. Getting & Setting Content</h2>
+    <div id="content-box" class="box">
+        Original content with <strong>bold text</strong>
+    </div>
+    <div class="controls">
+        <button id="get-text">Get Text</button>
+        <button id="get-html">Get HTML</button>
+        <button id="set-text">Set Text</button>
+        <button id="set-html">Set HTML</button>
+    </div>
+    
+    <!-- CSS Manipulation -->
+    <h2>2. CSS Manipulation</h2>
+    <div id="style-box" class="box">
+        Style me!
+    </div>
+    <div class="controls">
+        <button id="change-color">Change Color</button>
+        <button id="change-size">Change Size</button>
+        <button id="add-class">Add Class</button>
+        <button id="toggle-class">Toggle Class</button>
+    </div>
+    
+    <!-- Adding/Removing Elements -->
+    <h2>3. Adding & Removing Elements</h2>
+    <ul id="my-list" class="box">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3</li>
+    </ul>
+    <div class="controls">
+        <button id="append-item">Append Item</button>
+        <button id="prepend-item">Prepend Item</button>
+        <button id="remove-last">Remove Last</button>
+        <button id="clear-list">Clear All</button>
+    </div>
+    
+    <!-- Attributes -->
+    <h2>4. Attributes</h2>
+    <img id="demo-image" src="https://via.placeholder.com/200x100/3498db/ffffff?text=Image+1" alt="Demo Image" class="box">
+    <div class="controls">
+        <button id="change-src">Change Image</button>
+        <button id="get-attr">Get Alt Attribute</button>
+    </div>
+    
+    <!-- Output Console -->
+    <h2>Output</h2>
+    <div id="output" class="box" style="background: #263238; color: #80CBC4; font-family: monospace; min-height: 80px;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            let itemCount = 3;
+            let imageToggle = false;
+            
+            function log(msg) {
+                $('#output').prepend('<div>> ' + msg + '</div>');
+            }
+            
+            // === Content Manipulation ===
+            $('#get-text').click(function() {
+                const text = $('#content-box').text();
+                log('Text: ' + text);
+            });
+            
+            $('#get-html').click(function() {
+                const html = $('#content-box').html();
+                log('HTML: ' + html);
+            });
+            
+            $('#set-text').click(function() {
+                $('#content-box').text('New plain text content');
+                log('Set text content');
+            });
+            
+            $('#set-html').click(function() {
+                $('#content-box').html('New content with <em>italic</em> and <strong>bold</strong>');
+                log('Set HTML content');
+            });
+            
+            // === CSS Manipulation ===
+            $('#change-color').click(function() {
+                $('#style-box').css('background-color', '#' + Math.floor(Math.random()*16777215).toString(16));
+                log('Changed background color');
+            });
+            
+            $('#change-size').click(function() {
+                $('#style-box').css({
+                    'font-size': '24px',
+                    'padding': '40px'
+                });
+                log('Changed size and padding');
+            });
+            
+            $('#add-class').click(function() {
+                $('#style-box').addClass('styled');
+                log('Added .styled class');
+            });
+            
+            $('#toggle-class').click(function() {
+                $('#style-box').toggleClass('styled');
+                log('Toggled .styled class');
+            });
+            
+            // === Adding/Removing Elements ===
+            $('#append-item').click(function() {
+                itemCount++;
+                $('#my-list').append('<li>Item ' + itemCount + ' (appended)</li>');
+                log('Appended item ' + itemCount);
+            });
+            
+            $('#prepend-item').click(function() {
+                itemCount++;
+                $('#my-list').prepend('<li>Item ' + itemCount + ' (prepended)</li>');
+                log('Prepended item ' + itemCount);
+            });
+            
+            $('#remove-last').click(function() {
+                $('#my-list li:last').remove();
+                log('Removed last item');
+            });
+            
+            $('#clear-list').click(function() {
+                $('#my-list').empty();
+                itemCount = 0;
+                log('Cleared all items');
+            });
+            
+            // === Attributes ===
+            $('#change-src').click(function() {
+                imageToggle = !imageToggle;
+                const newSrc = imageToggle 
+                    ? 'https://via.placeholder.com/200x100/e74c3c/ffffff?text=Image+2'
+                    : 'https://via.placeholder.com/200x100/3498db/ffffff?text=Image+1';
+                $('#demo-image').attr('src', newSrc);
+                log('Changed image src');
+            });
+            
+            $('#get-attr').click(function() {
+                const alt = $('#demo-image').attr('alt');
+                log('Alt attribute: ' + alt);
+            });
+        });
+    </script>
+</body>
+</html>

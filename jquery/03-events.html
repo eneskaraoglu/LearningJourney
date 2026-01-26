@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Events</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .box { padding: 20px; margin: 10px 0; background: #f5f5f5; border-radius: 8px; }
+        .hover-box { background: #e1bee7; transition: all 0.3s; cursor: pointer; }
+        .hover-box:hover { transform: scale(1.02); }
+        .click-area { background: #b2dfdb; height: 100px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .keyboard-input { padding: 15px; font-size: 18px; width: 100%; box-sizing: border-box; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        h1 { color: #333; }
+        form { background: #fff9c4; padding: 20px; border-radius: 8px; }
+        form input, form button { margin: 10px 0; }
+        .event-log { background: #263238; color: #80CBC4; font-family: monospace; min-height: 100px; max-height: 200px; overflow-y: auto; }
+        #dynamic-buttons { padding: 10px; background: #e3f2fd; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>03 - Event Handling</h1>
+    
+    <!-- Click Events -->
+    <h2>1. Click Events</h2>
+    <div id="click-area" class="box click-area">
+        Click me! (Click count: <span id="click-count">0</span>)
+    </div>
+    <button id="single-click">Single Click</button>
+    <button id="double-click">Double Click Me</button>
+    
+    <!-- Mouse Events -->
+    <h2>2. Mouse Events (Hover)</h2>
+    <div id="hover-box" class="box hover-box">
+        Hover over me!
+    </div>
+    
+    <!-- Keyboard Events -->
+    <h2>3. Keyboard Events</h2>
+    <input type="text" id="keyboard-input" class="keyboard-input" placeholder="Type something here...">
+    <div id="key-output" class="box">Key pressed: <span id="key-display">-</span></div>
+    
+    <!-- Form Events -->
+    <h2>4. Form Events</h2>
+    <form id="demo-form">
+        <input type="text" id="name-input" placeholder="Enter your name">
+        <input type="email" id="email-input" placeholder="Enter your email">
+        <br>
+        <button type="submit">Submit Form</button>
+    </form>
+    
+    <!-- Focus/Blur -->
+    <h2>5. Focus & Blur</h2>
+    <input type="text" id="focus-input" class="keyboard-input" placeholder="Click here to focus...">
+    
+    <!-- Event Delegation (Dynamic Elements) -->
+    <h2>6. Event Delegation (for Dynamic Elements)</h2>
+    <div id="dynamic-buttons">
+        <button class="dynamic-btn">Button 1</button>
+        <button class="dynamic-btn">Button 2</button>
+    </div>
+    <button id="add-dynamic">Add New Button</button>
+    
+    <!-- $(this) Example -->
+    <h2>7. Using $(this)</h2>
+    <div class="box">
+        <button class="color-btn">Red</button>
+        <button class="color-btn">Green</button>
+        <button class="color-btn">Blue</button>
+    </div>
+    
+    <!-- Event Log -->
+    <h2>Event Log</h2>
+    <div id="event-log" class="box event-log"></div>
+    <button id="clear-log">Clear Log</button>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            let clickCount = 0;
+            let dynamicCount = 2;
+            
+            function log(msg) {
+                const time = new Date().toLocaleTimeString();
+                $('#event-log').prepend('<div>[' + time + '] ' + msg + '</div>');
+            }
+            
+            // === Click Events ===
+            $('#click-area').click(function() {
+                clickCount++;
+                $('#click-count').text(clickCount);
+                log('Click area clicked! Count: ' + clickCount);
+            });
+            
+            $('#single-click').click(function() {
+                log('Single click on button');
+            });
+            
+            $('#double-click').dblclick(function() {
+                log('Double click detected!');
+            });
+            
+            // === Mouse Events ===
+            $('#hover-box').hover(
+                function() {
+                    $(this).css('background', '#9c27b0').text('Mouse entered!');
+                    log('Mouse entered hover box');
+                },
+                function() {
+                    $(this).css('background', '#e1bee7').text('Hover over me!');
+                    log('Mouse left hover box');
+                }
+            );
+            
+            // Alternative: mouseenter and mouseleave
+            // $('#hover-box').mouseenter(function() { ... });
+            // $('#hover-box').mouseleave(function() { ... });
+            
+            // === Keyboard Events ===
+            $('#keyboard-input').keyup(function(e) {
+                $('#key-display').text(e.key + ' (code: ' + e.keyCode + ')');
+                log('Key pressed: ' + e.key);
+            });
+            
+            // Detect Enter key
+            $('#keyboard-input').keydown(function(e) {
+                if (e.key === 'Enter') {
+                    log('ENTER key pressed!');
+                    alert('You pressed Enter!');
+                }
+            });
+            
+            // === Form Events ===
+            $('#demo-form').submit(function(e) {
+                e.preventDefault(); // Prevent actual form submission
+                const name = $('#name-input').val();
+                const email = $('#email-input').val();
+                log('Form submitted! Name: ' + name + ', Email: ' + email);
+                alert('Form submitted!\nName: ' + name + '\nEmail: ' + email);
+            });
+            
+            // Input change event
+            $('#name-input').on('input', function() {
+                log('Name input changed: ' + $(this).val());
+            });
+            
+            // === Focus & Blur ===
+            $('#focus-input').focus(function() {
+                $(this).css('background', '#e8f5e9');
+                log('Input focused');
+            });
+            
+            $('#focus-input').blur(function() {
+                $(this).css('background', 'white');
+                log('Input lost focus (blur)');
+            });
+            
+            // === Event Delegation ===
+            // This works for EXISTING and FUTURE elements!
+            $('#dynamic-buttons').on('click', '.dynamic-btn', function() {
+                log('Dynamic button clicked: ' + $(this).text());
+            });
+            
+            $('#add-dynamic').click(function() {
+                dynamicCount++;
+                $('#dynamic-buttons').append('<button class="dynamic-btn">Button ' + dynamicCount + '</button> ');
+                log('Added Button ' + dynamicCount);
+            });
+            
+            // === $(this) Example ===
+            $('.color-btn').click(function() {
+                const color = $(this).text().toLowerCase();
+                $(this).css('background', color).css('color', 'white');
+                log('Color button clicked: ' + color);
+            });
+            
+            // === Clear Log ===
+            $('#clear-log').click(function() {
+                $('#event-log').empty();
+            });
+            
+            log('Page loaded - try the different events!');
+        });
+    </script>
+</body>
+</html>

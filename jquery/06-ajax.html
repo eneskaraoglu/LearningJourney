@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery AJAX</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .demo-section { margin: 30px 0; padding: 20px; background: #f5f5f5; border-radius: 8px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; background: #00796b; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #004d40; }
+        h1 { color: #333; }
+        h2 { color: #555; }
+        .output { background: #263238; color: #80CBC4; font-family: monospace; padding: 15px; border-radius: 8px; min-height: 100px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; }
+        .loading { color: #ffab00; }
+        .error { color: #ff5252; }
+        .success { color: #69f0ae; }
+        .user-card { background: #fff; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #00796b; }
+        .post-card { background: #e8f5e9; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        input, select { padding: 10px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>06 - AJAX (Asynchronous JavaScript)</h1>
+    <p>We'll use <a href="https://jsonplaceholder.typicode.com" target="_blank">JSONPlaceholder</a> - a free fake API for testing.</p>
+    
+    <!-- Basic GET Request -->
+    <div class="demo-section">
+        <h2>1. Basic GET Request - $.get()</h2>
+        <button id="get-users">Get Users</button>
+        <button id="get-single">Get Single User</button>
+        <div id="output1" class="output"></div>
+    </div>
+    
+    <!-- POST Request -->
+    <div class="demo-section">
+        <h2>2. POST Request - $.post()</h2>
+        <input type="text" id="post-title" placeholder="Post Title">
+        <input type="text" id="post-body" placeholder="Post Body">
+        <button id="create-post">Create Post</button>
+        <div id="output2" class="output"></div>
+    </div>
+    
+    <!-- Full $.ajax() -->
+    <div class="demo-section">
+        <h2>3. Full Control - $.ajax()</h2>
+        <p>$.ajax() gives you complete control over the request</p>
+        <select id="method-select">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+        </select>
+        <input type="text" id="ajax-url" value="/posts/1" placeholder="Endpoint">
+        <button id="send-ajax">Send Request</button>
+        <div id="output3" class="output"></div>
+    </div>
+    
+    <!-- Loading States -->
+    <div class="demo-section">
+        <h2>4. Loading States & Error Handling</h2>
+        <button id="slow-request">Simulate Slow Request</button>
+        <button id="error-request">Simulate Error (404)</button>
+        <div id="output4" class="output"></div>
+    </div>
+    
+    <!-- Chained Requests -->
+    <div class="demo-section">
+        <h2>5. Chained Requests (Get User, then their Posts)</h2>
+        <input type="number" id="user-id" value="1" min="1" max="10" placeholder="User ID">
+        <button id="chain-request">Get User & Posts</button>
+        <div id="output5" class="output"></div>
+        <div id="results5"></div>
+    </div>
+    
+    <!-- getJSON -->
+    <div class="demo-section">
+        <h2>6. $.getJSON() - Shorthand for JSON</h2>
+        <button id="get-json">Get Comments (JSON)</button>
+        <div id="output6" class="output"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            const API_BASE = 'https://jsonplaceholder.typicode.com';
+            
+            // === 1. Basic GET ===
+            $('#get-users').click(function() {
+                $('#output1').html('<span class="loading">Loading users...</span>');
+                
+                $.get(API_BASE + '/users', function(users) {
+                    let html = '<span class="success">✓ Got ' + users.length + ' users:</span>\n\n';
+                    users.slice(0, 3).forEach(function(user) {
+                        html += '• ' + user.name + ' (' + user.email + ')\n';
+                    });
+                    html += '... and ' + (users.length - 3) + ' more';
+                    $('#output1').html(html);
+                });
+            });
+            
+            $('#get-single').click(function() {
+                $('#output1').html('<span class="loading">Loading user...</span>');
+                
+                $.get(API_BASE + '/users/1', function(user) {
+                    $('#output1').html(
+                        '<span class="success">✓ User found:</span>\n\n' +
+                        JSON.stringify(user, null, 2)
+                    );
+                });
+            });
+            
+            // === 2. POST Request ===
+            $('#create-post').click(function() {
+                const title = $('#post-title').val() || 'Default Title';
+                const body = $('#post-body').val() || 'Default body content';
+                
+                $('#output2').html('<span class="loading">Creating post...</span>');
+                
+                $.post(API_BASE + '/posts', {
+                    title: title,
+                    body: body,
+                    userId: 1
+                }, function(response) {
+                    $('#output2').html(
+                        '<span class="success">✓ Post created!</span>\n\n' +
+                        JSON.stringify(response, null, 2)
+                    );
+                });
+            });
+            
+            // === 3. Full $.ajax() ===
+            $('#send-ajax').click(function() {
+                const method = $('#method-select').val();
+                const endpoint = $('#ajax-url').val();
+                
+                $('#output3').html('<span class="loading">Sending ' + method + ' request...</span>');
+                
+                $.ajax({
+                    url: API_BASE + endpoint,
+                    method: method,
+                    data: method === 'POST' || method === 'PUT' ? { title: 'Updated', body: 'Content' } : null,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#output3').html(
+                            '<span class="success">✓ ' + method + ' Success:</span>\n\n' +
+                            JSON.stringify(data, null, 2)
+                        );
+                    },
+                    error: function(xhr, status, error) {
+                        $('#output3').html(
+                            '<span class="error">✗ Error: ' + error + '</span>\n' +
+                            'Status: ' + xhr.status
+                        );
+                    }
+                });
+            });
+            
+            // === 4. Loading & Errors ===
+            $('#slow-request').click(function() {
+                $('#output4').html('<span class="loading">⏳ Loading... (simulating delay)</span>');
+                
+                // JSONPlaceholder doesn't have delay, so we simulate it
+                setTimeout(function() {
+                    $.get(API_BASE + '/posts/1')
+                        .done(function(data) {
+                            $('#output4').html('<span class="success">✓ Done after delay!</span>\n\n' + JSON.stringify(data, null, 2));
+                        });
+                }, 2000);
+            });
+            
+            $('#error-request').click(function() {
+                $('#output4').html('<span class="loading">Requesting non-existent resource...</span>');
+                
+                $.ajax({
+                    url: API_BASE + '/posts/99999',
+                    method: 'GET',
+                    success: function(data) {
+                        // JSONPlaceholder returns empty for non-existent
+                        if (Object.keys(data).length === 0) {
+                            $('#output4').html('<span class="error">✗ Resource not found (empty response)</span>');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        $('#output4').html(
+                            '<span class="error">✗ Error!</span>\n' +
+                            'Status: ' + xhr.status + '\n' +
+                            'Error: ' + error
+                        );
+                    }
+                });
+            });
+            
+            // === 5. Chained Requests ===
+            $('#chain-request').click(function() {
+                const userId = $('#user-id').val();
+                
+                $('#output5').html('<span class="loading">Getting user ' + userId + '...</span>');
+                $('#results5').html('');
+                
+                // First: Get user
+                $.get(API_BASE + '/users/' + userId)
+                    .done(function(user) {
+                        $('#output5').html('<span class="success">✓ Found user: ' + user.name + '</span>\n<span class="loading">Getting their posts...</span>');
+                        
+                        // Then: Get their posts
+                        return $.get(API_BASE + '/posts?userId=' + userId);
+                    })
+                    .done(function(posts) {
+                        $('#output5').append('\n<span class="success">✓ Found ' + posts.length + ' posts</span>');
+                        
+                        let html = '';
+                        posts.slice(0, 3).forEach(function(post) {
+                            html += '<div class="post-card"><strong>' + post.title + '</strong><p>' + post.body.substring(0, 100) + '...</p></div>';
+                        });
+                        $('#results5').html(html);
+                    })
+                    .fail(function(error) {
+                        $('#output5').html('<span class="error">✗ Error: ' + error.statusText + '</span>');
+                    });
+            });
+            
+            // === 6. getJSON ===
+            $('#get-json').click(function() {
+                $('#output6').html('<span class="loading">Getting comments...</span>');
+                
+                $.getJSON(API_BASE + '/comments?postId=1', function(comments) {
+                    let html = '<span class="success">✓ Got ' + comments.length + ' comments:</span>\n\n';
+                    comments.forEach(function(comment) {
+                        html += '• ' + comment.name + '\n  "' + comment.body.substring(0, 50) + '..."\n\n';
+                    });
+                    $('#output6').html(html);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

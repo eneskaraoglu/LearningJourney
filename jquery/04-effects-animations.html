@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Effects & Animations</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .demo-section { margin: 30px 0; padding: 20px; background: #f5f5f5; border-radius: 8px; }
+        .box { width: 150px; height: 100px; background: #3498db; color: white; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin: 20px 0; font-weight: bold; }
+        .animate-box { position: relative; left: 0; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; background: #9c27b0; color: white; border: none; border-radius: 4px; }
+        button:hover { background: #7b1fa2; }
+        h1 { color: #333; }
+        h2 { color: #555; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .callback-box { background: #e74c3c; }
+        .chain-box { background: #2ecc71; width: 100px; }
+    </style>
+</head>
+<body>
+    <h1>04 - Effects & Animations</h1>
+    
+    <!-- Hide/Show -->
+    <div class="demo-section">
+        <h2>1. Hide / Show / Toggle</h2>
+        <div id="box1" class="box">Box 1</div>
+        <button id="hide-btn">Hide</button>
+        <button id="show-btn">Show</button>
+        <button id="toggle-btn">Toggle</button>
+        <button id="slow-toggle">Slow Toggle (1s)</button>
+    </div>
+    
+    <!-- Fade Effects -->
+    <div class="demo-section">
+        <h2>2. Fade Effects</h2>
+        <div id="box2" class="box" style="background: #e74c3c;">Fade Box</div>
+        <button id="fade-out">Fade Out</button>
+        <button id="fade-in">Fade In</button>
+        <button id="fade-toggle">Fade Toggle</button>
+        <button id="fade-to">Fade to 50%</button>
+    </div>
+    
+    <!-- Slide Effects -->
+    <div class="demo-section">
+        <h2>3. Slide Effects</h2>
+        <div id="box3" class="box" style="background: #9b59b6;">Slide Box</div>
+        <button id="slide-up">Slide Up</button>
+        <button id="slide-down">Slide Down</button>
+        <button id="slide-toggle">Slide Toggle</button>
+    </div>
+    
+    <!-- Custom Animation -->
+    <div class="demo-section">
+        <h2>4. Custom Animation (.animate)</h2>
+        <div id="box4" class="box animate-box" style="background: #f39c12;">Animate Me</div>
+        <button id="animate-right">Move Right</button>
+        <button id="animate-grow">Grow</button>
+        <button id="animate-multi">Multi Properties</button>
+        <button id="animate-reset">Reset</button>
+    </div>
+    
+    <!-- Callback Functions -->
+    <div class="demo-section">
+        <h2>5. Callback Functions</h2>
+        <p>Callbacks run AFTER the animation completes</p>
+        <div id="box5" class="box callback-box">Callback Demo</div>
+        <button id="callback-demo">Run Animation with Callback</button>
+        <div id="callback-output" style="margin-top: 10px; padding: 10px; background: #fff;"></div>
+    </div>
+    
+    <!-- Chaining -->
+    <div class="demo-section">
+        <h2>6. Method Chaining</h2>
+        <p>Chain multiple animations together!</p>
+        <div id="box6" class="box chain-box">Chain</div>
+        <button id="chain-demo">Run Chained Animation</button>
+    </div>
+    
+    <!-- Stop Animation -->
+    <div class="demo-section">
+        <h2>7. Stop Animation</h2>
+        <div id="box7" class="box animate-box" style="background: #1abc9c; width: 100px;">Moving...</div>
+        <button id="start-long">Start Long Animation</button>
+        <button id="stop-anim">Stop</button>
+        <button id="stop-clear">Stop & Clear Queue</button>
+    </div>
+    
+    <!-- Delay -->
+    <div class="demo-section">
+        <h2>8. Delay Between Animations</h2>
+        <div id="box8" class="box" style="background: #34495e;">Delay Demo</div>
+        <button id="delay-demo">Fade Out, Wait 2s, Fade In</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        $(function() {
+            // === Hide / Show / Toggle ===
+            $('#hide-btn').click(function() {
+                $('#box1').hide();
+            });
+            
+            $('#show-btn').click(function() {
+                $('#box1').show();
+            });
+            
+            $('#toggle-btn').click(function() {
+                $('#box1').toggle();
+            });
+            
+            $('#slow-toggle').click(function() {
+                $('#box1').toggle(1000); // 1000ms = 1 second
+            });
+            
+            // === Fade Effects ===
+            $('#fade-out').click(function() {
+                $('#box2').fadeOut(500);
+            });
+            
+            $('#fade-in').click(function() {
+                $('#box2').fadeIn(500);
+            });
+            
+            $('#fade-toggle').click(function() {
+                $('#box2').fadeToggle(500);
+            });
+            
+            $('#fade-to').click(function() {
+                $('#box2').fadeTo(500, 0.5); // fade to 50% opacity
+            });
+            
+            // === Slide Effects ===
+            $('#slide-up').click(function() {
+                $('#box3').slideUp(500);
+            });
+            
+            $('#slide-down').click(function() {
+                $('#box3').slideDown(500);
+            });
+            
+            $('#slide-toggle').click(function() {
+                $('#box3').slideToggle(500);
+            });
+            
+            // === Custom Animation ===
+            $('#animate-right').click(function() {
+                $('#box4').animate({
+                    left: '+=100px'
+                }, 500);
+            });
+            
+            $('#animate-grow').click(function() {
+                $('#box4').animate({
+                    width: '+=50px',
+                    height: '+=30px'
+                }, 500);
+            });
+            
+            $('#animate-multi').click(function() {
+                $('#box4').animate({
+                    left: '200px',
+                    opacity: 0.5,
+                    width: '200px',
+                    fontSize: '20px'
+                }, 1000);
+            });
+            
+            $('#animate-reset').click(function() {
+                $('#box4').animate({
+                    left: '0',
+                    opacity: 1,
+                    width: '150px',
+                    height: '100px',
+                    fontSize: '16px'
+                }, 500);
+            });
+            
+            // === Callback Functions ===
+            $('#callback-demo').click(function() {
+                $('#callback-output').text('Animation starting...');
+                
+                $('#box5').fadeOut(1000, function() {
+                    // This runs AFTER fadeOut completes
+                    $('#callback-output').text('Fade out complete! Now fading in...');
+                    
+                    $('#box5').fadeIn(1000, function() {
+                        // This runs AFTER fadeIn completes
+                        $('#callback-output').text('All animations complete!');
+                    });
+                });
+            });
+            
+            // === Chaining ===
+            $('#chain-demo').click(function() {
+                $('#box6')
+                    .slideUp(500)
+                    .slideDown(500)
+                    .animate({ width: '200px' }, 500)
+                    .animate({ width: '100px' }, 500)
+                    .fadeOut(500)
+                    .fadeIn(500);
+            });
+            
+            // === Stop Animation ===
+            $('#start-long').click(function() {
+                $('#box7').animate({ left: '500px' }, 5000)
+                         .animate({ left: '0' }, 5000);
+            });
+            
+            $('#stop-anim').click(function() {
+                $('#box7').stop(); // Stop current animation
+            });
+            
+            $('#stop-clear').click(function() {
+                $('#box7').stop(true, true); // Clear queue, jump to end
+            });
+            
+            // === Delay ===
+            $('#delay-demo').click(function() {
+                $('#box8')
+                    .fadeOut(500)
+                    .delay(2000)  // Wait 2 seconds
+                    .fadeIn(500);
+            });
+        });
+    </script>
+</body>
+</html>

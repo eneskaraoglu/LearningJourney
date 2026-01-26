@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery Basics - Selectors & DOM Ready</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .box { padding: 20px; margin: 10px 0; background: #f0f0f0; border-radius: 8px; }
+        .highlight { background: #ffffa0; }
+        .active { border: 3px solid #4CAF50; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        h1 { color: #333; }
+        code { background: #eee; padding: 2px 6px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>01 - jQuery Basics</h1>
+    
+    <h2>Selectors Demo</h2>
+    
+    <div id="unique-box" class="box">
+        This box has <code>id="unique-box"</code>
+    </div>
+    
+    <div class="box demo-box">
+        This box has <code>class="demo-box"</code>
+    </div>
+    
+    <div class="box demo-box">
+        Another box with <code>class="demo-box"</code>
+    </div>
+    
+    <p>This is a paragraph element</p>
+    <p>Another paragraph element</p>
+    
+    <h2>Try These Buttons</h2>
+    <button id="btn-id">Select by ID</button>
+    <button id="btn-class">Select by Class</button>
+    <button id="btn-tag">Select by Tag</button>
+    <button id="btn-reset">Reset All</button>
+    
+    <h2>Console Output</h2>
+    <div id="output" class="box" style="background: #1e1e1e; color: #0f0; font-family: monospace; min-height: 100px;"></div>
+
+    <!-- Include jQuery from CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+        // Document Ready - code runs after DOM is fully loaded
+        $(document).ready(function() {
+            log('jQuery loaded! Document is ready.');
+            
+            // Helper function to show output
+            function log(message) {
+                $('#output').append('<div>> ' + message + '</div>');
+            }
+            
+            // Select by ID
+            $('#btn-id').click(function() {
+                $('#unique-box').addClass('active');
+                log('Selected #unique-box by ID');
+            });
+            
+            // Select by Class
+            $('#btn-class').click(function() {
+                $('.demo-box').addClass('highlight');
+                log('Selected ' + $('.demo-box').length + ' elements with .demo-box class');
+            });
+            
+            // Select by Tag
+            $('#btn-tag').click(function() {
+                $('p').css('color', 'blue');
+                log('Selected ' + $('p').length + ' paragraph elements');
+            });
+            
+            // Reset
+            $('#btn-reset').click(function() {
+                $('.box').removeClass('active highlight');
+                $('p').css('color', '');
+                $('#output').html('');
+                log('Reset complete!');
+            });
+        });
+    </script>
+</body>
+</html>
