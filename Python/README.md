@@ -45,6 +45,12 @@ Master Python fundamentals, then progress to Data Analysis and Machine Learning/
 
 ### Phase 4: Machine Learning & AI ⬜ Not Started
 
+| Module | Topic | Status |
+|--------|-------|--------|
+| 01 | ML Foundations | ⬜ Pending |
+| 02 | Supervised Learning | ⬜ Pending |
+| 03 | Unsupervised Learning | ⬜ Pending |
+
 ---
 
 ## Quick Links
@@ -66,6 +72,16 @@ Master Python fundamentals, then progress to Data Analysis and Machine Learning/
 - [04 - Modules & Packages](02-intermediate/04-modules-packages/)
 - [05 - Virtual Environments](02-intermediate/05-virtual-environments/)
 
+**Data Analysis**
+- [01 - NumPy](03-data-analysis/01-numpy/)
+- [02 - Pandas](03-data-analysis/02-pandas/)
+- [03 - Visualization](03-data-analysis/03-visualization/)
+
+**Machine Learning**
+- [01 - ML Foundations](04-machine-learning/01-ml-foundations/)
+- [02 - Supervised Learning](04-machine-learning/02-supervised/)
+- [03 - Unsupervised Learning](04-machine-learning/03-unsupervised/)
+
 📄 **Cheatsheets**
 - [Java to Python Cheatsheet](notes/java-to-python-cheatsheet.md)
 - [Python Complete Cheatsheet](notes/python-complete-cheatsheet.md)
@@ -79,6 +95,20 @@ Master Python fundamentals, then progress to Data Analysis and Machine Learning/
 - [Pandas Documentation](https://pandas.pydata.org/docs/)
 - [scikit-learn](https://scikit-learn.org/)
 
+## Requirements (Phase 4)
+Install these before starting Machine Learning:
+
+```bash
+pip install pandas numpy scikit-learn matplotlib
+```
+
+## Requirements (Phase 3)
+Install these before starting Data Analysis:
+
+```bash
+pip install numpy pandas matplotlib seaborn
+```
+
 ---
 
 ## Next Steps
@@ -86,4 +116,3 @@ Master Python fundamentals, then progress to Data Analysis and Machine Learning/
 2. ✅ Complete Phase 2: Intermediate
 3. ⏳ Start Phase 3: Data Analysis (NumPy, Pandas)
 4. ⬜ Phase 4: Machine Learning
-

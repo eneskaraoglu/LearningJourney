@@ -11,8 +11,6 @@ Hi, I'm [name]! I have [years] years of Java experience.
 My favorite Java feature is [feature].
 """
 
-# Your code here:
-
 nameD = "Enes"
 years = 18
 print("Hi. My name is ", nameD ,", I have been java developer in ", years, " year.")
@@ -26,8 +24,6 @@ Given two variables, swap their values without using a temporary variable.
 
 a = 100
 b = 200
-
-# Your code here (swap a and b):
 
 a, b = b, a 
 
@@ -49,12 +45,17 @@ Create variables of different types and print their types.
 # - a boolean
 # - None
 
-# Your code here:
-
 year = 9
 leght = 1.2
 name = "Alice"
 day = False
+none_value = None
+
+print(f"year = {year}, type: {type(year)}")
+print(f"leght = {leght}, type: {type(leght)}")
+print(f"name = {name}, type: {type(name)}")
+print(f"day = {day}, type: {type(day)}")
+print(f"none_value = {none_value}, type: {type(none_value)}")
 
 """
 Exercise 4: Calculator
@@ -69,7 +70,25 @@ Enter operator (+, -, *, /): *
 Result: 10 * 3 = 30
 """
 
-# Your code here:
+num1 = float(input("Enter first number: "))
+num2 = float(input("Enter second number: "))
+operator = input("Enter operator (+, -, *, /): ")
+
+if operator == "+":
+    result = num1 + num2
+elif operator == "-":
+    result = num1 - num2
+elif operator == "*":
+    result = num1 * num2
+elif operator == "/":
+    if num2 != 0:
+        result = num1 / num2
+    else:
+        result = "Error: Division by zero"
+else:
+    result = "Invalid operator"
+
+print(f"Result: {num1} {operator} {num2} = {result}")
 
 
 
@@ -83,7 +102,9 @@ Print the result formatted to 2 decimal places.
 Hint: f"{value:.2f}" formats to 2 decimal places
 """
 
-# Your code here:
+celsius = float(input("Enter temperature in Celsius: "))
+fahrenheit = celsius * 9/5 + 32
+print(f"{celsius}C = {fahrenheit:.2f}F")
 
 
 
@@ -107,7 +128,14 @@ public class Exercise {
 }
 """
 
-# Your Python translation here:
+x = 10
+y = 20
+
+if x < y and y < 30:
+    print("Both conditions true")
+
+print(f"Sum: {x + y}")
+print(f"Power: {2 ** x}")
 
 
 
@@ -126,6 +154,16 @@ formatted "profile card" that looks like this:
 +------------------------+
 """
 
-# Your code here:
+profile_name = "Alex"
 
+profile = f"""
++------------------------+
+|   DEVELOPER PROFILE    |
++------------------------+
+| Name: {profile_name:<16}|
+| Language: Java -> Python|
+| Level: Learning        |
++------------------------+
+"""
 
+print(profile)
