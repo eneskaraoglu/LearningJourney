@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(git -C \"D:/CODE-BASE/LearningJourney\" log --oneline -20)",
+      "Bash(git -C \"D:/CODE-BASE/LearningJourney\" remote -v)",
+      "Bash(git -C:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}
