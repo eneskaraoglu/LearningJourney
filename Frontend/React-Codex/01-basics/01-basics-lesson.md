@@ -98,3 +98,22 @@ function Button() {
 2. Components are reusable building blocks
 3. Props pass data into components
 4. Lists and conditionals render dynamic UI
+
+---
+
+## Q&A
+
+### 1) What is the main idea behind React?
+**Answer:** Build UIs as reusable components that manage their own state and can be composed together.
+
+### 2) Why do we use JSX?
+**Answer:** JSX makes component UI easier to read and write by combining markup-like syntax with JavaScript expressions.
+
+### 3) What is the difference between props and state?
+**Answer:** Props are read-only inputs from a parent; state is internal data a component can update.
+
+### 4) Why is key important in lists?
+**Answer:** key helps React identify which items changed, were added, or removed for efficient re-rendering.
+
+### 5) How are events handled in React?
+**Answer:** Events use camelCase props like onClick, and handlers are passed as functions.

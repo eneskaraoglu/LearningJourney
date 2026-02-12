@@ -62,3 +62,22 @@ const styles = {
 1. Components should be small and reusable
 2. Composition lets you build UIs from smaller pieces
 3. Children are perfect for flexible layouts
+
+---
+
+## Q&A
+
+### 1) Why split UI into components?
+**Answer:** Components improve reuse, readability, and maintainability by isolating responsibilities.
+
+### 2) What makes a good component boundary?
+**Answer:** A boundary is good when one component has one clear responsibility and a stable public API.
+
+### 3) When should a component receive data via props?
+**Answer:** Use props when data is owned by a parent and only needs to be read by the child.
+
+### 4) What is component composition?
+**Answer:** Composition means building larger UIs by combining smaller components together.
+
+### 5) Why avoid very large components?
+**Answer:** Large components are harder to test, reason about, and reuse.

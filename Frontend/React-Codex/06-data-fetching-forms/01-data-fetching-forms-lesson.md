@@ -76,3 +76,22 @@ const isValid = email.includes("@");
 1. Fetch in useEffect and handle states
 2. Use controlled inputs for forms
 3. Validate before submitting
+
+---
+
+## Q&A
+
+### 1) Where should async data fetching usually happen?
+**Answer:** In effects or dedicated data hooks tied to component lifecycle and dependencies.
+
+### 2) What are loading and error states?
+**Answer:** UI states that represent pending requests and failed requests for better user feedback.
+
+### 3) What is a controlled form input?
+**Answer:** An input whose value is driven by React state and updated via change handlers.
+
+### 4) Why validate form input?
+**Answer:** Validation prevents bad data and provides immediate user guidance.
+
+### 5) What is a common fetch cleanup pattern?
+**Answer:** Abort stale requests when components unmount or dependencies change.

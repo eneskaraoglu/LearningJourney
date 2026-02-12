@@ -90,3 +90,22 @@ function FocusInput() {
 2. useEffect runs side effects
 3. useMemo and useCallback help with performance
 4. useRef stores mutable values without re-rendering
+
+---
+
+## Q&A
+
+### 1) What problem do hooks solve?
+**Answer:** Hooks let function components use state and lifecycle-related logic without class components.
+
+### 2) When do you use useState?
+**Answer:** Use it for local component data that changes over time and affects rendering.
+
+### 3) What is the role of useEffect?
+**Answer:** useEffect runs side effects such as data fetching, subscriptions, or DOM updates.
+
+### 4) Why do dependency arrays matter in useEffect?
+**Answer:** They control when effects re-run and help avoid stale values or unnecessary work.
+
+### 5) What is a common hooks rule?
+**Answer:** Call hooks only at the top level of React function components or custom hooks.

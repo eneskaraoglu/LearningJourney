@@ -712,3 +712,22 @@ The exercises in `02-exercises.jsx` will help you practice:
 8. Hook composition
 
 Complete all exercises to master custom hooks!
+
+---
+
+## Q&A
+
+### 1) Why create a custom hook?
+**Answer:** To reuse stateful logic across components without duplicating code.
+
+### 2) What should a custom hook return?
+**Answer:** A minimal API (state + actions) that hides internal implementation details.
+
+### 3) Can custom hooks call other hooks?
+**Answer:** Yes, as long as hooks rules are followed.
+
+### 4) How do you name custom hooks?
+**Answer:** Start with use (for example, useFetchUsers).
+
+### 5) What is a good custom hook design principle?
+**Answer:** Keep hooks focused on one responsibility and easy to test.

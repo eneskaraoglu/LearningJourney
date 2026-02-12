@@ -461,3 +461,22 @@ function ComplexForm() {
 ## Next Steps
 
 In Module 11, we'll build a complete user management system with full CRUD operations and API integration.
+
+---
+
+## Q&A
+
+### 1) When is useReducer better than useState?
+**Answer:** When state transitions are complex, related, or driven by many action types.
+
+### 2) What is the purpose of useRef?
+**Answer:** Store mutable values or DOM references without triggering re-renders.
+
+### 3) Why model reducer updates as actions?
+**Answer:** Actions keep updates explicit, traceable, and easier to debug.
+
+### 4) What is the value of form validation architecture?
+**Answer:** It centralizes rules and improves consistency across fields.
+
+### 5) How do reducer and validation work together?
+**Answer:** Reducers manage form state transitions while validation derives errors from current state.

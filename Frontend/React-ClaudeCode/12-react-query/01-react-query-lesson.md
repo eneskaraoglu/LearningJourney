@@ -428,3 +428,22 @@ function App() {
 ## Next Steps
 
 Module 13 introduces Zustand for client state management and Error Boundaries for error handling.
+
+---
+
+## Q&A
+
+### 1) What problem does React Query solve?
+**Answer:** It manages server state lifecycle: fetching, caching, syncing, and invalidation.
+
+### 2) What is a query key?
+**Answer:** A stable identifier React Query uses to cache and refetch specific data.
+
+### 3) Why invalidate queries after mutations?
+**Answer:** Invalidation ensures stale cached data is refreshed after updates.
+
+### 4) What is optimistic UI?
+**Answer:** Temporarily update UI before server confirmation to improve perceived speed.
+
+### 5) How does React Query improve developer workflow?
+**Answer:** It removes boilerplate around loading/error/caching patterns.

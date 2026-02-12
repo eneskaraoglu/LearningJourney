@@ -52,3 +52,22 @@ function useLocalStorage(key, initialValue) {
 ## Summary
 1. Custom hooks reuse logic cleanly
 2. Hooks can wrap storage, events, and side effects
+
+---
+
+## Q&A
+
+### 1) Why create a custom hook?
+**Answer:** To reuse stateful logic across components without duplicating code.
+
+### 2) What should a custom hook return?
+**Answer:** A minimal API (state + actions) that hides internal implementation details.
+
+### 3) Can custom hooks call other hooks?
+**Answer:** Yes, as long as hooks rules are followed.
+
+### 4) How do you name custom hooks?
+**Answer:** Start with use (for example, useFetchUsers).
+
+### 5) What is a good custom hook design principle?
+**Answer:** Keep hooks focused on one responsibility and easy to test.

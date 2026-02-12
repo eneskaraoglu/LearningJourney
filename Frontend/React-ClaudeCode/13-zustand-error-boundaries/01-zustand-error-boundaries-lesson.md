@@ -444,3 +444,22 @@ function DataComponent() {
 ## Next Steps
 
 Module 14 covers authentication patterns and protected routes for securing your React applications.
+
+---
+
+## Q&A
+
+### 1) What is Zustand used for?
+**Answer:** Lightweight global state management with simple store-based APIs.
+
+### 2) Why are error boundaries important?
+**Answer:** They prevent a component crash from taking down the entire app view.
+
+### 3) What errors do error boundaries catch?
+**Answer:** Rendering and lifecycle errors in descendant components, not event handler errors.
+
+### 4) How does Zustand differ from Context-only state?
+**Answer:** Zustand can reduce provider nesting and improve selective subscriptions.
+
+### 5) What is a robust error handling strategy?
+**Answer:** Catch errors, show fallback UI, log details, and provide recovery actions.

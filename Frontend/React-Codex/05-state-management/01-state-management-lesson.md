@@ -64,3 +64,22 @@ function reducer(state, action) {
 1. Lift state for shared data
 2. Context avoids prop drilling
 3. useReducer helps manage complex state
+
+---
+
+## Q&A
+
+### 1) When is local state enough?
+**Answer:** Local state is enough when data is used by a single component or a small subtree.
+
+### 2) What is prop drilling?
+**Answer:** Passing props through many intermediate components that do not need the data.
+
+### 3) How does Context help state management?
+**Answer:** Context provides shared values without manually threading props through every level.
+
+### 4) When should you consider external state libraries?
+**Answer:** Use them when app-wide state and update logic become complex or repetitive.
+
+### 5) What is the key goal of state design?
+**Answer:** Keep a single source of truth and predictable update flows.

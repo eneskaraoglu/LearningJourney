@@ -381,3 +381,22 @@ const increment = () => {
 ## Next Steps
 
 In the next module, we'll learn about React Router for building multi-page applications with client-side routing.
+
+---
+
+## Q&A
+
+### 1) What problem do hooks solve?
+**Answer:** Hooks let function components use state and lifecycle-related logic without class components.
+
+### 2) When do you use useState?
+**Answer:** Use it for local component data that changes over time and affects rendering.
+
+### 3) What is the role of useEffect?
+**Answer:** useEffect runs side effects such as data fetching, subscriptions, or DOM updates.
+
+### 4) Why do dependency arrays matter in useEffect?
+**Answer:** They control when effects re-run and help avoid stale values or unnecessary work.
+
+### 5) What is a common hooks rule?
+**Answer:** Call hooks only at the top level of React function components or custom hooks.

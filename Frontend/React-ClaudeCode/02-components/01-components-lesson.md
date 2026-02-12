@@ -294,3 +294,22 @@ UserCard.defaultProps = {
 ## Next Steps
 
 In the next module, we'll learn about React Hooks (useState, useEffect) to add state and side effects to functional components.
+
+---
+
+## Q&A
+
+### 1) Why split UI into components?
+**Answer:** Components improve reuse, readability, and maintainability by isolating responsibilities.
+
+### 2) What makes a good component boundary?
+**Answer:** A boundary is good when one component has one clear responsibility and a stable public API.
+
+### 3) When should a component receive data via props?
+**Answer:** Use props when data is owned by a parent and only needs to be read by the child.
+
+### 4) What is component composition?
+**Answer:** Composition means building larger UIs by combining smaller components together.
+
+### 5) Why avoid very large components?
+**Answer:** Large components are harder to test, reason about, and reuse.

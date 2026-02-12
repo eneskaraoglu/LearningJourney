@@ -46,3 +46,22 @@ function ProtectedRoute({ children }) {
 ## Summary
 1. Track auth with context
 2. Guard routes with redirects
+
+---
+
+## Q&A
+
+### 1) What is a protected route?
+**Answer:** A route that requires authentication (and sometimes authorization) before access.
+
+### 2) What is the difference between authentication and authorization?
+**Answer:** Authentication verifies identity; authorization checks permissions.
+
+### 3) Why preserve intended destination after login?
+**Answer:** It improves UX by returning users to the page they originally requested.
+
+### 4) What is a common token lifecycle concern?
+**Answer:** Handling expiration and refresh without creating security gaps.
+
+### 5) What should protected-route UX include?
+**Answer:** Clear redirects, loading states during checks, and friendly access-denied messaging.

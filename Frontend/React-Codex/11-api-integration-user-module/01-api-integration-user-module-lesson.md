@@ -60,3 +60,22 @@ function UserDetail({ user }) {
 ## Summary
 1. Separate list and detail components
 2. Handle loading and error states
+
+---
+
+## Q&A
+
+### 1) What is the first step in API integration?
+**Answer:** Define clear request/response contracts and error handling behavior.
+
+### 2) Why normalize API state in UI?
+**Answer:** It simplifies rendering and updates across loading, success, and error states.
+
+### 3) How should token-based auth be handled on the client?
+**Answer:** Store and attach tokens carefully, and handle expiration safely.
+
+### 4) What should happen on failed API requests?
+**Answer:** Show actionable error feedback and allow retry paths.
+
+### 5) Why separate API logic from components?
+**Answer:** Separation improves testability and keeps components focused on UI.

@@ -761,3 +761,22 @@ The exercises in `02-exercises.jsx` will help you practice:
 6. Measuring and improving performance
 
 Complete all exercises to master React performance optimization!
+
+---
+
+## Q&A
+
+### 1) What causes unnecessary re-renders?
+**Answer:** Changing props/state references and parent re-renders that cascade to children.
+
+### 2) When is React.memo useful?
+**Answer:** For pure components that receive the same props frequently.
+
+### 3) Why use useMemo and useCallback carefully?
+**Answer:** They can reduce expensive recalculation but add complexity if overused.
+
+### 4) How does list virtualization improve performance?
+**Answer:** It renders only visible items instead of the full list.
+
+### 5) What should guide performance optimization?
+**Answer:** Measure first, optimize bottlenecks second, and keep code maintainable.
