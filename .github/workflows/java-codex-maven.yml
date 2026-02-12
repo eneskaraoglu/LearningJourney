@@ -1,0 +1,28 @@
+name: Java Codex Maven Samples
+on:
+  push:
+    paths:
+      - "Java-codex/sample-spring-boot/**"
+      - "Java-codex/sample-spring-boot-secured/**"
+      - ".github/workflows/java-codex-maven.yml"
+  pull_request:
+    paths:
+      - "Java-codex/sample-spring-boot/**"
+      - "Java-codex/sample-spring-boot-secured/**"
+      - ".github/workflows/java-codex-maven.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+      - name: Test Maven Sample
+        working-directory: Java-codex/sample-spring-boot
+        run: mvn -q test -DexcludeTags=containers
+      - name: Test Maven Secured Sample
+        working-directory: Java-codex/sample-spring-boot-secured
+        run: mvn -q test -DexcludeTags=containers

@@ -1,0 +1,27 @@
+{
+  "info": {
+    "name": "Tasks API (Gradle Sample)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "http://localhost:8080/api/tasks",
+        "body": {
+          "mode": "raw",
+          "raw": "{
+  "title": "Gradle Task",
+  "description": "Gradle sample",
+  "completed": false,
+  "priority": 3
+}"
+        }
+      }
+    }
+  ]
+}

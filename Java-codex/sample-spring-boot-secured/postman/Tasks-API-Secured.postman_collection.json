@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "Tasks API (Secured Sample)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "http://localhost:8080/auth/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{
+  "username": "user",
+  "password": "password"
+}"
+        }
+      }
+    },
+    {
+      "name": "List Tasks (Bearer Token)",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "http://localhost:8080/api/tasks"
+      }
+    },
+    {
+      "name": "Delete Task (Admin Only)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "url": "http://localhost:8080/api/tasks/1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "info": {
+    "name": "Tasks API (Maven Sample)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Task",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "http://localhost:8080/api/tasks",
+        "body": {
+          "mode": "raw",
+          "raw": "{
+  "title": "Learn Spring",
+  "description": "Work through module 6",
+  "completed": false,
+  "priority": 2
+}"
+        }
+      }
+    },
+    {
+      "name": "List Tasks",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/tasks"
+      }
+    },
+    {
+      "name": "Get Task",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8080/api/tasks/1"
+      }
+    },
+    {
+      "name": "Update Task",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "http://localhost:8080/api/tasks/1",
+        "body": {
+          "mode": "raw",
+          "raw": "{
+  "title": "Learn Spring",
+  "description": "Updated",
+  "completed": true,
+  "priority": 1
+}"
+        }
+      }
+    },
+    {
+      "name": "Delete Task",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:8080/api/tasks/1"
+      }
+    }
+  ]
+}
