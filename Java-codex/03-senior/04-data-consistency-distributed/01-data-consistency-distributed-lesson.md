@@ -1,15 +1,77 @@
-# Data Consistency In Distributed Systems
+# Data Consistency Distributed
 
-## Goals
-- Apply patterns for cross-service consistency.
-- Use sagas and outbox safely.
-- Understand CAP and tradeoffs.
+## Module Info
+- Level: Senior
+- Recommended Session Time: 180-220 minutes
+- Prerequisite: Complete all mid Java modules and have Spring production experience.
 
-## Core Concepts
-Distributed systems trade consistency for availability and partition tolerance. Sagas orchestrate or choreograph multi-step workflows. The outbox pattern ensures events are published reliably after DB commits. CQRS separates reads and writes to scale and isolate complexity.
+## Learning Outcomes
+- Explain the core implementation decisions in Data Consistency Distributed with concrete examples.
+- Build a small but complete feature using the module pattern.
+- Handle validation and error paths without breaking contract behavior.
+- Describe testing and observability priorities for this topic.
 
-## Interview Focus
-- CAP theorem and real-world interpretation
-- Saga patterns and compensations
-- Eventual consistency tradeoffs
-- Idempotency in distributed workflows
+## Deep Dive
+### Data Model Clarity
+Design entities with explicit ownership and lifecycle boundaries. Avoid accidental bidirectional complexity.
+
+### Transaction Scope
+Keep transactions short and purposeful. Long transactions increase lock contention and failure surface area.
+
+### Query Safety
+Use parameterized queries and index-aware access patterns to avoid latency cliffs.
+
+### Consistency Decisions
+State where strong consistency is required and where eventual consistency is acceptable.
+
+## Worked Example
+```java
+@Transactional
+public OrderResult placeOrder(CreateOrderCommand cmd) {
+  User user = userRepo.findById(cmd.userId())
+      .orElseThrow(() -> new NotFoundException("USER_NOT_FOUND"));
+
+  Order order = new Order(user, cmd.items());
+  orderRepo.save(order);
+  return OrderResult.from(order);
+}
+```
+
+## Common Pitfalls
+- Over-engineering before requirements are clear.
+- Ignoring failure scenarios and validating only happy paths.
+- Mixing domain logic, transport concerns, and persistence code in one place.
+- Skipping tests until after complexity has already increased.
+
+## Debugging Checklist
+- Reproduce with the smallest possible failing input.
+- Log key state transitions and boundary inputs.
+- Validate configuration, environment values, and dependency wiring.
+- Confirm error responses are consistent and actionable.
+
+## Step-by-Step Practice Plan
+1. Recreate the worked example from scratch without copy-paste.
+2. Add one deliberate bug and trace how you detect it.
+3. Solve `02-exercises.md` in order (Part A to Part C).
+4. Compare your approach with `03-solutions.md` and refactor one section.
+
+## Mini Project Task
+1. Implement one focused feature using this module topic.
+2. Add validation for at least two invalid input cases.
+3. Add one integration-level test and one unit-level test.
+4. Document one reliability risk and mitigation.
+
+## Interview Q&A
+### Q1: What problem does this module solve in production systems?
+It reduces ambiguity and failure risk by applying explicit design, validation, and operational patterns.
+
+### Q2: How do you test this area efficiently?
+Start with deterministic unit tests for rules, then add integration tests at framework boundaries.
+
+### Q3: Which tradeoff should you be ready to justify?
+Simplicity versus flexibility: keep the design as simple as possible while preserving correctness and maintainability.
+
+## Exit Criteria
+- You can implement the core pattern without notes.
+- You can explain at least three failure cases and their handling.
+- You can describe the minimum test set required before shipping.
