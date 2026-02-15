@@ -1,19 +1,56 @@
-// 1) Runtime info
-console.log('Node version:', process.version);
-console.log('Platform:', process.platform);
-console.log('Current dir:', process.cwd());
+"use strict";
 
-// 2) Math utilities
-function add(a, b) { return a + b; }
-function subtract(a, b) { return a - b; }
-function multiply(a, b) { return a * b; }
-function divide(a, b) {
-  if (b === 0) return null;
-  return a / b;
+// Node Runtime and Module System - Reference Solution
+
+function parseNumber(value, label) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) {
+    throw new Error(`INVALID_NUMBER:${label}`);
+  }
+  return n;
 }
 
-// 3) Sample usage
-console.log('add(2, 3) =', add(2, 3));
-console.log('subtract(7, 4) =', subtract(7, 4));
-console.log('multiply(3, 5) =', multiply(3, 5));
-console.log('divide(10, 0) =', divide(10, 0));
+const operations = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b,
+  divide: (a, b) => {
+    if (b === 0) throw new Error("DIVIDE_BY_ZERO");
+    return a / b;
+  }
+};
+
+function runCli(argv) {
+  const appMode = process.env.APP_MODE || "development";
+  console.log("runtime", {
+    node: process.version,
+    platform: process.platform,
+    cwd: process.cwd(),
+    appMode,
+    args: argv
+  });
+
+  const [aRaw, bRaw, opRaw] = argv;
+  if (!aRaw || !bRaw || !opRaw) {
+    console.log("Usage: node 03-solutions.js <a> <b> <operation>");
+    console.log("Operations:", Object.keys(operations).join(", "));
+    return;
+  }
+
+  const op = opRaw.toLowerCase();
+  if (!operations[op]) {
+    throw new Error(`INVALID_OPERATION:${op}`);
+  }
+
+  const a = parseNumber(aRaw, "a");
+  const b = parseNumber(bRaw, "b");
+  const result = operations[op](a, b);
+  console.log(`result => ${a} ${op} ${b} = ${result}`);
+}
+
+try {
+  runCli(process.argv.slice(2));
+} catch (error) {
+  console.error("error", { message: error.message });
+  process.exitCode = 1;
+}
