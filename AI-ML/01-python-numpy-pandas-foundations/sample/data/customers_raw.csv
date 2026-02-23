@@ -1,0 +1,10 @@
+user_id,age,monthly_spend,region
+1,25,120,north
+2,30,310,south
+3,not_known,80,east
+4,45,500,
+5,-5,40,west
+2,30,310,south
+6,0,150,north
+7,28,-20,east
+8,35,260,west
