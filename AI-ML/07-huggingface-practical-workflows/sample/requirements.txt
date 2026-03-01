@@ -1,0 +1,6 @@
+transformers>=4.39.0
+datasets>=2.18.0
+scikit-learn>=1.4.0
+python-dotenv>=1.0.1
+huggingface_hub>=0.23.0
+torch>=2.2.0
